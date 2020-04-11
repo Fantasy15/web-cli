@@ -8,7 +8,7 @@ const path = require('path');
 const fs = require('fs-extra')
 const program = require('commander');
 const chalk = require('chalk');
-
+const download = require('download-git-repo');
 
 let projectName;
 
@@ -28,7 +28,7 @@ if (typeof projectName === 'undefined') {
 createApp(projectName);
 
 
-function createApp(name) {
+async function createApp(name) {
 
     const root = path.resolve(name);
     const appName = path.basename(root);
@@ -36,37 +36,54 @@ function createApp(name) {
     fs.ensureDirSync(name);
     console.log(`create a new app in ${chalk.green(root)}`)
 
-    const packageJson = {
-        name: appName,
-        version: '0.1.0',
-        private: true,
-    };
-    fs.writeFileSync(
-        path.join(root, 'package.json'),
-        JSON.stringify(packageJson, null, 4)
-    );
-
     const originalDirectory = process.cwd();
     process.chdir(root);
 
-    run(root, appName, originalDirectory);
-
+    await run(root, appName, originalDirectory);
+    console.log('done');
 }
 
 
-function run(root, appName, originalDirectory) {
-    let preset = await loadRemoteRepo(appName);
-    writeIntoRoot(preset)
+async function run(root, appName) {
+    fs.emptyDirSync(root);
+
+    let preset = await getPreset(appName, root);
+
+    await writeIntoRoot(preset);
 }
 
 
-async function loadRemoteRepo() {
-    let cmd;
-    let args = [
-        ''
-    ]
+async function loadRemoteTpl(appName, repo) {
+    console.log("begin load remote template");
+
+    await new Promise((resolve, reject) => {
+        download(
+            repo.name,
+            repo.tmp, 
+            err => {
+                if (err) {
+                    reject(err);
+                    console.log(chalk.red('load repo faild'));
+                } else {
+                    resolve();
+                    console.log('load repo successful');
+                }
+            }
+        )
+    })
 }
 
-function writeIntoRoot(preset) {
+async function writeIntoRoot(preset) {
+    // console.log("write into root");
+}
 
+async function getPreset(appName, root) {
+    const repo = {
+        name: 'Fantasy15/web-template',
+        tmp: 'tmp'
+    };
+    await loadRemoteTpl(appName, repo);
+
+    await fs.copySync(path.resolve(repo.tmp), root);
+    console.log('copy successful');
 }

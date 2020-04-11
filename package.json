@@ -7,11 +7,12 @@
         "chalk": "^4.0.0",
         "commander": "^5.0.0",
         "cross-spawn": "^7.0.2",
+        "download-git-repo": "^3.0.2",
         "fs-extra": "^9.0.0"
     },
     "devDependencies": {},
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "clear": "node scripts/clearTest.js"
     },
     "repository": {
         "type": "git",
