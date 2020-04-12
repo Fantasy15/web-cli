@@ -59,7 +59,7 @@ async function loadRemoteTpl(appName, repo) {
     await new Promise((resolve, reject) => {
         download(
             repo.name,
-            repo.tmp, 
+            repo.tmp,
             err => {
                 if (err) {
                     reject(err);
@@ -85,5 +85,7 @@ async function getPreset(appName, root) {
     await loadRemoteTpl(appName, repo);
 
     await fs.copySync(path.resolve(repo.tmp), root);
+    await fs.removeSync(path.resolve(repo.tmp));
     console.log('copy successful');
+
 }
