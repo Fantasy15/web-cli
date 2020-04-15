@@ -13,7 +13,7 @@ const download = require('download-git-repo');
 let projectName;
 
 program
-    .version(require('./package.json').version)
+    .version(require('../package.json').version)
     .arguments('[name]')
     .action(name => {
         projectName = name;
