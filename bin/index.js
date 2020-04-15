@@ -82,6 +82,7 @@ async function getPreset(appName, root) {
         name: 'Fantasy15/web-template',
         tmp: 'tmp'
     };
+
     await loadRemoteTpl(appName, repo);
 
     await fs.copySync(path.resolve(repo.tmp), root);
