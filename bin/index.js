@@ -84,6 +84,7 @@ async function getPreset(appName, root) {
     };
 
     await loadRemoteTpl(appName, repo);
+    await fs.removeSync(path.resolve(`${repo.tmp}/doc`));
 
     await fs.copySync(path.resolve(repo.tmp), root);
     await fs.removeSync(path.resolve(repo.tmp));
