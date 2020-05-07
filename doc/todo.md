@@ -1,3 +1,3 @@
 #### todo list
 
-- make github workflow work 
+- 添加参数支持 vue react, 默认vue
