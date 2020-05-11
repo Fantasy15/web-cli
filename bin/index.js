@@ -11,12 +11,14 @@ const chalk = require('chalk');
 const download = require('download-git-repo');
 
 let projectName;
+let projectType;
 
 program
     .version(require('../package.json').version)
-    .arguments('[name]')
-    .action(name => {
+    .arguments('[name] [type]')
+    .action((name, type) => {
         projectName = name;
+        projectType = type;
     })
     .parse(process.argv);
 
@@ -26,7 +28,6 @@ if (typeof projectName === 'undefined') {
 }
 
 createApp(projectName);
-
 
 async function createApp(name) {
 
@@ -79,7 +80,7 @@ async function writeIntoRoot(preset) {
 
 async function getPreset(appName, root) {
     const repo = {
-        name: 'Fantasy15/web-template',
+        name: `Fantasy15/web-template${projectType === 'react' && '#/react-version'}`,
         tmp: 'tmp'
     };
 
