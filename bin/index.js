@@ -80,7 +80,7 @@ async function writeIntoRoot(preset) {
 
 async function getPreset(appName, root) {
     const repo = {
-        name: `Fantasy15/web-template${projectType === 'react' && '#/react-version'}`,
+        name: `Fantasy15/web-template${projectType === 'react' ? '#/react-version' : ''}`,
         tmp: 'tmp'
     };
 
