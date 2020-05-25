@@ -30,31 +30,35 @@ if (typeof projectName === 'undefined') {
 createApp(projectName);
 
 async function createApp(name) {
-
     const root = path.resolve(name);
-    const appName = path.basename(root);
-
     fs.ensureDirSync(name);
+    process.chdir(root);
     console.log(`create a new app in ${chalk.green(root)}`)
 
-    const originalDirectory = process.cwd();
-    process.chdir(root);
-
-    await run(root, appName, originalDirectory);
+    await run(root);
     console.log('done');
 }
 
 
-async function run(root, appName) {
+async function run(root) {
     fs.emptyDirSync(root);
 
-    let preset = await getPreset(appName, root);
+    const repo = {
+        name: `Fantasy15/web-template${projectType === 'react' ? '#/react-version' : ''}`,
+        tmp: 'tmp'
+    };
 
-    await writeIntoRoot(preset);
+    await loadRemoteTpl(repo);
+
+    await fs.removeSync(path.resolve(`${repo.tmp}/doc`));
+    await fs.copySync(path.resolve(repo.tmp), root);
+    await fs.removeSync(path.resolve(repo.tmp));
+    
+    console.log('copy successful');
 }
 
 
-async function loadRemoteTpl(appName, repo) {
+async function loadRemoteTpl(repo) {
     console.log("begin load remote template");
 
     await new Promise((resolve, reject) => {
@@ -72,23 +76,4 @@ async function loadRemoteTpl(appName, repo) {
             }
         )
     })
-}
-
-async function writeIntoRoot(preset) {
-    // console.log("write into root");
-}
-
-async function getPreset(appName, root) {
-    const repo = {
-        name: `Fantasy15/web-template${projectType === 'react' ? '#/react-version' : ''}`,
-        tmp: 'tmp'
-    };
-
-    await loadRemoteTpl(appName, repo);
-    await fs.removeSync(path.resolve(`${repo.tmp}/doc`));
-
-    await fs.copySync(path.resolve(repo.tmp), root);
-    await fs.removeSync(path.resolve(repo.tmp));
-    console.log('copy successful');
-
 }
