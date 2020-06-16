@@ -43,8 +43,18 @@ async function createApp(name) {
 async function run(root) {
     fs.emptyDirSync(root);
 
+    let branch = '';
+    switch(projectType) {
+        case 'react':
+            branch = 'react-version';
+        case 'react-hook':
+            branch = 'react-hook-version';
+        default:
+            branch = 'master'
+    }
+
     const repo = {
-        name: `Fantasy15/web-template${projectType === 'react' ? '#/react-version' : ''}`,
+        name: `Fantasy15/web-template#/${branch}`,
         tmp: 'tmp'
     };
 
