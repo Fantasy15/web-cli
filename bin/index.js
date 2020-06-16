@@ -43,14 +43,15 @@ async function createApp(name) {
 async function run(root) {
     fs.emptyDirSync(root);
 
-    let branch = '';
+    let branch = 'master';
+
     switch(projectType) {
         case 'react':
             branch = 'react-version';
+            break;
         case 'react-hook':
             branch = 'react-hook-version';
-        default:
-            branch = 'master'
+            break;
     }
 
     const repo = {
@@ -58,19 +59,19 @@ async function run(root) {
         tmp: 'tmp'
     };
 
+    console.log(`begin load remote template from ${chalk.green(`https://github.com/${repo.name}`)}`);
+
     await loadRemoteTpl(repo);
 
     await fs.removeSync(path.resolve(`${repo.tmp}/doc`));
     await fs.copySync(path.resolve(repo.tmp), root);
     await fs.removeSync(path.resolve(repo.tmp));
     
-    console.log('copy successful');
+    console.log('copy from tmp successful');
 }
 
 
 async function loadRemoteTpl(repo) {
-    console.log("begin load remote template");
-
     await new Promise((resolve, reject) => {
         download(
             repo.name,
