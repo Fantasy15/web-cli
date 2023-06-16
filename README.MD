@@ -1,4 +1,4 @@
-# creat-web-tpl
+# create-web-tpl
 
 一个轻量的脚手架，默认 生成 vue spa 项目，默认为 vue3版本，并支持 vue2, react, react-hook [模板项目](https://github.com/Fantasy15/web-template)，包含了 webpack, router, store 等, 完全暴露，无二次开发成本
 
