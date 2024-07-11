@@ -8,14 +8,12 @@
 - 默认版本
 
     webpack5 + vue3 + vue-router + pinia
-- vue2
 
-    webpack5 + vue2 + vue-router + vuex
 - react
 
     webpack5 + react + react-router + mobx
 
-- react-hook
+- react-hook-version
 
     webpack5 + react(hook风格) + react-router + mobx
 ## 对比其他脚手架
@@ -54,7 +52,7 @@ npx create-web-tpl <projectName> [projectType]
 | option | required | type  | default  | value
 | -------| -------| -------| -----------| ---------
 | projectName   | True      | String |  ''  | eg: 'myapp'
-| prejectType   | False     | String |  ''  | vue2/react/react-hook
+| prejectType   | False     | String |  ''  | react/react-hook-version
 
 
 
